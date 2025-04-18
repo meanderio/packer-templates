@@ -24,6 +24,26 @@ variable "proxmox_api_token_secret" {
     sensitive = true
 }
 
+variable "proxmox_node" {
+    type = string
+}
+
+variable "proxmox_vm_id" {
+    type = string
+}
+
+variable "proxmox_vm_name" {
+    type = string
+}
+
+variable "proxmox_ssh_username" {
+    type = string
+}
+variable "proxmox_ssh_password" {
+    type = string
+    sensitive = true
+}
+
 # Resource Definiation for the VM Template
 source "proxmox-iso" "ubuntu-noble" {
 
@@ -36,10 +56,10 @@ source "proxmox-iso" "ubuntu-noble" {
     insecure_skip_tls_verify = true
 
     # VM General Settings
-    node                 = "mndrforge01"
-    vm_id                = "9000"
-    vm_name              = "ubuntu-noble-base"
-    template_description = "ubuntu noble base image"
+    node                 = "${var.proxmox_node}"
+    vm_id                = "${var.proxmox_vm_id}"
+    vm_name              = "${var.proxmox_vm_name}"
+    # template_description = "ubuntu noble base image"
 
     # VM OS Settings
     # Local ISO File
@@ -84,9 +104,9 @@ source "proxmox-iso" "ubuntu-noble" {
         "e<wait>",
         "<down><down><down><end>",
         "<bs><bs><bs><bs><wait>",
-	"autoinstall<wait> ",
-	"cloud-config-url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/user-data<wait> ",
-	"ds='nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/'",
+	"autoinstall<wait>",
+	" cloud-config-url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/user-data<wait>",
+	" ds='nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/'",
         "<wait5><f10><wait>"
     ]
 
@@ -101,8 +121,8 @@ source "proxmox-iso" "ubuntu-noble" {
     http_port_min           = 8802
     http_port_max           = 8802
 
-    ssh_username = "mndr"
-    ssh_password = "< plaintext password >"
+    ssh_username = "${var.proxmox_ssh_username}"
+    ssh_password = "${var.proxmox_ssh_password}"
 
     # Raise the timeout, when installation takes longer
     ssh_timeout  = "30m"

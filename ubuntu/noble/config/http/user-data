@@ -27,4 +27,5 @@ autoinstall:
         lock-passwd: false
         sudo: ALL=(ALL) NOPASSWD:ALL
         shell: /bin/bash
-	passwd: < echo shadoop | mkpasswd -m sha-512 -R 4096 -s >
+        passwd: < echo password | mkpasswd -m sha-512 -R 4096 -s >
+
