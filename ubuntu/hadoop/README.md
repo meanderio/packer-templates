@@ -2,6 +2,8 @@
 
 ### Project Structure
 
+```bash
+tree
 .
 ├── config
 │   ├── files
@@ -12,6 +14,7 @@
 │   └── ubuntu-noble-hadoop.pkr.hcl
 ├── credentials.pkr.hcl.template
 └── README
+```
 
 ### Punch List
 
